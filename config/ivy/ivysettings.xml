@@ -1,0 +1,14 @@
+<ivysettings>
+    <settings defaultResolver="default"/>
+
+    <include url="./localhost-ivysettings.xml" name="local"/>
+    <include url="./maven-ivysettings.xml" name="public"/>
+
+    <resolvers>
+        <chain name="default" dual="true">
+            <resolver ref="localhost"/>
+            <resolver ref="maven"/>
+        </chain>
+    </resolvers>
+
+</ivysettings>

@@ -1,0 +1,12 @@
+<ivysettings>
+
+    <resolvers>
+        <ibiblio name="maven" m2compatible="true" usepoms="true"/>
+    </resolvers>
+
+    <caches default="maven-cache" useOrigin="true">
+        <cache name="maven-cache"
+               basedir="${user.home}/ivy/ivy-cache/" />
+    </caches>
+
+</ivysettings>

@@ -1,0 +1,18 @@
+<ivysettings>
+
+    <property name="artifacts.dir" value="${user.home}/projects/artifacts"/>
+    <settings defaultResolver="localhost"/>
+
+    <resolvers>
+        <filesystem name="localhost">
+            <artifact pattern="${artifacts.dir}/[organization]/[artifact]-[revision].[ext]" />
+            <ivy pattern="${artifacts.dir}/ivy-[revision].xml" />
+        </filesystem>
+    </resolvers>
+
+    <caches default="localhost-cache" useOrigin="true">
+        <cache name="localhost-cache"
+               basedir="${user.home}/ivy/ivy-cache/" />
+    </caches>
+
+</ivysettings>
