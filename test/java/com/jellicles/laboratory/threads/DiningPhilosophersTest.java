@@ -71,22 +71,21 @@ public class DiningPhilosophersTest {
         }
         philosophers = new ArrayList<Philosopher>();
         for (int i = 0; i < dinnerGuests; i++) {
-            Integer id = i;
-            int nextId = id + 1;
+            int nextId = i + 1;
             if (nextId == dinnerGuests) {
                 nextId = 0;
             }
-            Philosopher p = mockery.mock(Philosopher.class, id.toString());
+            Philosopher p = mockery.mock(Philosopher.class, String.valueOf(i));
             Field pId = Philosopher.class.getDeclaredField("id");
             pId.setAccessible(true);
-            pId.setInt(p, id);
+            pId.setInt(p, i);
             Field meals = Philosopher.class.getDeclaredField("availableMeals");
             meals.setAccessible(true);
             int availableMeals = 10;
             meals.setInt(p, availableMeals);
             Field f1 = Philosopher.class.getDeclaredField("myFork");
             f1.setAccessible(true);
-            f1.set(p, forks.get(id));
+            f1.set(p, forks.get(i));
             Field f2 = Philosopher.class.getDeclaredField("neighboursFork");
             f2.setAccessible(true);
             f2.set(p, forks.get(nextId));
