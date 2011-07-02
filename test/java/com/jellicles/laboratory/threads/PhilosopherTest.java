@@ -3,7 +3,6 @@ package com.jellicles.laboratory.threads;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.testng.annotations.AfterClass;
@@ -25,7 +24,7 @@ import static org.testng.Assert.fail;
 public class PhilosopherTest {
 
     private Synchroniser synchroniser = new Synchroniser();
-    private Mockery mockery = new JUnit4Mockery() {
+    private Mockery mockery = new Mockery() {
         {
             setThreadingPolicy(synchroniser);
             setImposteriser(ClassImposteriser.INSTANCE);

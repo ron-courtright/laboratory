@@ -8,6 +8,7 @@
         <chain name="default" dual="true">
             <resolver ref="localhost"/>
             <resolver ref="maven"/>
+            <resolver ref="restlet"/>
         </chain>
     </resolvers>
 

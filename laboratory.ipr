@@ -42,7 +42,17 @@
   </component>
   <component name="IdProvider" IDEtalkID="E5F7E0D941B30849B98879688C16BE28" />
   <component name="IvyIDEA.ProjectSettings">
+    <option name="artifactTypeSettings">
+      <ArtifactTypeSettings>
+        <option name="classesTypes" value="jar, sar, war, ear, ejb, bundle, test-jar" />
+        <option name="javadocTypes" value="javadoc, doc, docs, apidoc, apidocs, documentation, documents" />
+        <option name="sourcesTypes" value="source, src, sources, srcs" />
+      </ArtifactTypeSettings>
+    </option>
     <option name="ivySettingsFile" value="$PROJECT_DIR$/config/ivy/ivysettings.xml" />
+    <option name="propertiesSettings">
+      <PropertiesSettings />
+    </option>
     <option name="validateIvyFiles" value="true" />
   </component>
   <component name="JavadocGenerationManager">
@@ -230,7 +240,7 @@
     </option>
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="Git" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>

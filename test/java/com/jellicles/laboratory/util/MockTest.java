@@ -2,7 +2,6 @@ package com.jellicles.laboratory.util;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.testng.annotations.Test;
 
@@ -18,7 +17,7 @@ import java.util.concurrent.Executors;
  */
 public class MockTest {
     private Synchroniser synchroniser = new Synchroniser();
-    private Mockery mockery = new JUnit4Mockery() {
+    private Mockery mockery = new Mockery() {
         {
             setThreadingPolicy(synchroniser);
         }
