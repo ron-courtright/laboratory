@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean id="cars"
+          class="com.apress.springrecipes.sequence.CollectionInjectionBean"
+          scope="singleton">
+        <property name="products">
+            <set>
+                <value>CAR</value>
+                <value>MOTORCYCLE</value>
+                <value>SCOOTER</value>
+            </set>
+        </property>
+        <property name="prices">
+            <map>
+                <entry key="CAR" value="100" />
+                <entry key="MOTORCYCLE" value="200" />
+                <entry key="SCOOTER" value="10" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="operatingSystems"
+          class="com.apress.springrecipes.sequence.CollectionInjectionBean"
+          scope="singleton">
+        <property name="products">
+            <set>
+                <value>Linux</value>
+                <value>Mac</value>
+                <value>Windows</value>
+            </set>
+        </property>
+        <property name="prices">
+            <map>
+                <entry key="Linux" value="0" />
+                <entry key="Mac" value="100" />
+                <entry key="Windows" value="200" />
+            </map>
+        </property>
+    </bean>
+</beans>

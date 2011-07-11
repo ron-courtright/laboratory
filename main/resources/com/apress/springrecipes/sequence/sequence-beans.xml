@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-2.5.xsd"
+       >
+
+    <!-- In Java, use @Required annotation to demand that certain properties be initialized. -->
+    <!-- This will automatically register AutowiredAnnotationBeanPostProcessor instance and @Autowired-->
+    <context:annotation-config/>
+    <!-- scan the classpath for Spring components
+    <context:component-scan base-package="com.apress.springrecipes.sequence">
+        <context:include-filter type="regex" expression="com\.apress\.springrecipes\.sequence\..*Dao.*" />
+        <context:include-filter type="regex" expression="com\.apress\.springrecipes\.sequence\..*Service.*" />
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    -->,
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor">
+        <property name="requiredAnnotationType" value="com.apress.springrecipes.sequence.Mandatory" />
+    </bean>
+
+    <!-- basic configuration using no-arg ctor -->
+    <bean name="sequenceGenerator-setBeans"
+          class="com.apress.springrecipes.sequence.SequenceGenerator"
+          dependency-check="all">
+        <property name="initial" value="100000"/>
+        <property name="suffixes">
+            <ref local="suffixes" />
+        </property>
+        <!-- set by autowire
+        <property name="prefixGenerator" ref="datePrefixGenerator"/>
+        -->
+    </bean>
+
+    <!-- ctor initialization: SequenceGenerator(int initial) -->
+    <!-- N.B., cannot do property dependency check here as suffix is in ctor -->
+    <bean name="sequenceGenerator-constructor"
+          class="com.apress.springrecipes.sequence.SequenceGenerator">
+        <constructor-arg type="int" value="300000"/>
+        <property name="suffixes">
+            <ref local="suffixes" />
+        </property>
+        <!-- set by autowire
+        <property name="prefixGenerator" ref="datePrefixGenerator"/>
+        -->
+    </bean>
+
+    <!-- preferred bean initialization by ID and property schema "p:" -->
+    <!-- autowire avoids this attribute setting: p:prefixGenerator-ref="datePrefixGenerator" -->
+    <bean id="baseGenerator" abstract="true">
+        <property name="initial" value="100000" />
+    </bean>
+
+    <bean id="baseSequenceGenerator"
+          parent="baseGenerator"
+          class="com.apress.springrecipes.sequence.SequenceGenerator"
+          dependency-check="all"
+          abstract="true">
+        <property name="suffixes">
+            <ref local="suffixes" />
+        </property>
+    </bean>
+
+    <bean id="sequenceGenerator" parent="baseSequenceGenerator" />
+    <bean id="sequenceGenerator1" parent="baseSequenceGenerator">
+        <property name="initial" value="500" />
+    </bean>
+    <bean id="sequenceGenerator2" parent="baseSequenceGenerator">
+        <property name="suffixes">
+            <ref local="suffixes" />
+        </property>
+    </bean>
+    
+    <bean id="reverseGenerator" parent="baseGenerator" class="com.apress.springrecipes.sequence.ReverseGenerator" />
+
+    <util:set id="suffixes" set-class="java.util.TreeSet">
+        <value>5</value>
+        <value>100</value>
+        <value>2000</value>
+    </util:set>
+
+
+    <!-- prefix generator beans -->
+    <bean id="datePrefixGenerator"
+          class="com.apress.springrecipes.sequence.DatePrefixGenerator"
+          p:pattern="yyyMMdd">
+        <qualifier type="com.apress.springrecipes.sequence.Generator" value="buffy" />
+    </bean>
+
+    <bean id="yearPrefixGenerator"
+          class="com.apress.springrecipes.sequence.DatePrefixGenerator"
+          p:pattern="yyyy">
+        <qualifier type="com.apress.springrecipes.sequence.Generator" value="willow" />
+    </bean>
+
+
+    <bean id="sequenceService"
+          class="com.apress.springrecipes.sequence.SequenceService"
+          autowire="byType" />
+
+    <bean id="sequenceDao"
+          class="com.apress.springrecipes.sequence.SequenceDaoImpl" />
+
+</beans>

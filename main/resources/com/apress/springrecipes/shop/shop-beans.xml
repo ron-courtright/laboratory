@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-2.5.xsd"
+       >
+
+    <!--
+    <bean id="aaa"
+          class="com.apress.springrecipes.shop.ProductCreator"
+          factory-method="createProduct">
+        <constructor-arg value="aaa"/>
+    </bean>
+
+    <bean id="cdrw"
+          class="com.apress.springrecipes.shop.ProductCreator"
+          factory-method="createProduct">
+        <constructor-arg value="cdrw"/>
+    </bean>
+    -->
+    
+    <bean id="productCreator"
+          class="com.apress.springrecipes.shop.ProductCreator">
+        <property name="products">
+            <map>
+                <entry key="aaa">
+                    <bean class="com.apress.springrecipes.shop.Battery">
+                        <property name="name" value="AAA"/>
+                        <property name="price" value="2.5"/>
+                    </bean>
+                </entry>
+                <entry key="cdrw">
+                    <bean class="com.apress.springrecipes.shop.Disc">
+                        <property name="name" value="CD-RW"/>
+                        <property name="price" value="1.5"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--
+    <util:map id="productsMap" map-class="java.util.HashMap">
+        <entry key="AAA" value="2.5"/>
+        <entry key="CD-RW" value="1.5"/>
+    </util:map>
+    -->
+
+    <!--
+    <bean id="aaa" factory-bean="productCreator" factory-method="createProduct">
+        <constructor-arg value="aaa"/>
+    </bean>
+
+    <bean id="cdrw" factory-bean="productCreator" factory-method="createProduct">
+        <constructor-arg value="cdrw"/>
+    </bean>
+    -->
+<!--
+    <util:list id="aaa">
+        <property name="name" value="AAA"/>
+        <property name="price" value="2.5"/>
+        <property name="rechargeable" value="true"/>
+    </util:list>
+    -->
+    <!--
+    <property name="name" value="CD-RW"/>
+    <property name="price" value="1.5"/>
+    <property name="capacity" value="700"/>
+    -->
+
+    <bean id="aaa" class="com.apress.springrecipes.shop.DiscountFactoryBean">
+        <property name="product">
+            <bean class="com.apress.springrecipes.shop.Battery">
+                <constructor-arg value="AAA"/>
+                <constructor-arg value="2.5"/>
+            </bean>
+        </property>
+        <property name="discount" value=".2"/>
+    </bean>
+
+    <bean id="cdrw" class="com.apress.springrecipes.shop.DiscountFactoryBean">
+        <property name="product">
+            <bean class="com.apress.springrecipes.shop.Disc">
+                <constructor-arg value="CD-RW"/>
+                <constructor-arg value="1.5"/>
+            </bean>
+        </property>
+        <property name="discount" value=".1"/>
+    </bean>
+
+    <!-- static initialisation -->
+    <util:constant static-field="com.apress.springrecipes.shop.Product.AA" id="aa" />
+    <util:constant static-field="com.apress.springrecipes.shop.Product.CDRO" id="cdro" />
+
+    <!-- bean property editor for product ranking bean -->
+    <bean id="dateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="yyyy-MM-dd"/>
+    </bean>
+
+    <bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg>
+            <bean class="java.text.SimpleDateFormat">
+                <constructor-arg value="yyyy-MM-dd"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg value="true"/>
+    </bean>
+
+    <!-- register custom property editors -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date">
+                    <ref local="dateEditor"/>
+                </entry>
+                <!-- No need to register if the <NameOfClass>Editor design pattern is used.
+                <entry key="com.apress.springrecipes.shop.Product">
+                    <bean class="com.apress.springrecipes.shop.ProductEditor"/>
+                </entry>
+                -->
+            </map>
+        </property>
+    </bean>
+
+    <!-- set bean by property path -->
+    <bean id="productRanking" class="com.apress.springrecipes.shop.ProductRanking">
+        <property name="bestSeller">
+            <!-- use custom editor configuration instead of this literal configuration
+            <bean class="com.apress.springrecipes.shop.Disc">
+                <property name="name" value="CD-RW"/>
+                <property name="price" value="1.5" />
+            </bean>
+            -->
+            <value>com.apress.springrecipes.shop.Disc,DVD-RW,2.56</value>
+        </property>
+        <property name="fromDate" value="2010-09-30"/>
+        <property name="toDate" value="2011-01-15"/>
+    </bean>
+    <util:property-path path="productRanking.bestSeller" id="bestSeller"/>
+
+    <bean id="dvdrw" class="com.apress.springrecipes.shop.Disc">
+        <property name="name" value="DVD-RW"/>
+        <property name="price" value="3.0"/>
+    </bean>
+
+
+    <bean id="shoppingCart" class="com.apress.springrecipes.shop.ShoppingCart" scope="prototype"/>
+
+    <!--
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="com/apress/springrecipes/shop/shop-config.properties"/>
+    </bean>
+    -->
+    <context:property-placeholder location="com/apress/springrecipes/shop/shop-config.properties"/>
+    <!--
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+    -->
+    <context:annotation-config/>
+    <bean class="com.apress.springrecipes.shop.PathCheckingBeanPostProcessor">
+        <!--property name="order" value="0"/  As zero is the default value, no need to explicitly set this value. -->
+    </bean>
+
+    <bean id="cashier1" class="com.apress.springrecipes.shop.Cashier">
+        <!-- property name="name" value="cashier1"/ Overtaken by BeanNameAware implementation -->
+        <property name="path" value="${cashier.path}"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="com/apress/springrecipes/shop/messages"/>
+    </bean>
+
+    <bean class="com.apress.springrecipes.shop.CheckoutListener" />
+
+    <bean id="bannerLoader"
+          class="com.apress.springrecipes.shop.BannerLoader"
+          init-method="showBanner">
+        <property name="banner" value="${banner.file}"/>
+     </bean>
+
+</beans>

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+       >
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- configuration issues; used with ComplexCachingAspect -->
+    <context:load-time-weaver/>
+    <context:spring-configured/>
+    <context:annotation-config/>
+
+    <bean id="aop-arithmeticCalculator" class="com.apress.springrecipes.calculator.ArithmeticCalculatorImpl"/>
+    <bean id="aop-unitCalculator" class="com.apress.springrecipes.calculator.UnitCalculatorImpl"/>
+
+    <bean class="com.apress.springrecipes.calculator.CalculatorPointcuts"/>
+    <bean class="com.apress.springrecipes.calculator.CalculatorLoggingAspect">
+        <property name="order" value="1"/>
+    </bean>
+    <bean class="com.apress.springrecipes.calculator.CalculatorValidationAspect">
+        <property name="order" value="0"/>
+    </bean>
+    <bean class="com.apress.springrecipes.calculator.CalculatorIntroduction"/>
+    <!-- configuration issues -->
+    <bean class="com.apress.springrecipes.calculator.ComplexCachingAspect" factory-method="aspectOf"/>
+    <bean id="complexCalculator" class="com.apress.springrecipes.calculator.ComplexCalculatorImpl"/>
+    <bean id="complex"
+          class="com.apress.springrecipes.calculator.Complex" scope="prototype">
+        <constructor-arg value="8"/>
+        <constructor-arg value="7"/>
+    </bean>
+    <bean id="complexFormatter" class="com.apress.springrecipes.calculator.ComplexFormatter">
+        <property name="pattern" value="(a + bi)"/>
+    </bean>
+
+</beans>

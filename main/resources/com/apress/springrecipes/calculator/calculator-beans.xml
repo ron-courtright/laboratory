@@ -1,0 +1,153 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="arithmeticCalculator" class="com.apress.springrecipes.calculator.ArithmeticCalculatorImpl"/>
+    <bean id="unitCalculator" class="com.apress.springrecipes.calculator.UnitCalculatorImpl"/>
+
+    <bean id="loggingBeforeAdvice" class="com.apress.springrecipes.calculator.LoggingBeforeAdvice"/>
+    <bean id="loggingAfterAdvice" class="com.apress.springrecipes.calculator.LoggingAfterAdvice"/>
+    <bean id="loggingThrowsAdvice" class="com.apress.springrecipes.calculator.LoggingThrowsAdvice"/>
+
+    <bean id="arithmeticCalculatorProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces">
+            <list>
+                <value>com.apress.springrecipes.calculator.ArithmeticCalculator</value>
+            </list>
+        </property>
+        <property name="target" ref="arithmeticCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>loggingBeforeAdvice</value>
+                <value>loggingAfterAdvice</value>
+                <value>loggingThrowsAdvice</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="unitCalculatorProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces">
+            <list>
+                <value>com.apress.springrecipes.calculator.UnitCalculator</value>
+            </list>
+        </property>
+        <property name="target" ref="unitCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>loggingBeforeAdvice</value>
+                <value>loggingAfterAdvice</value>
+                <value>loggingThrowsAdvice</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="loggingAroundAdvice" class="com.apress.springrecipes.calculator.LoggingAroundAdvice"/>
+
+    <bean id="wrappedArithmeticCalculator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="arithmeticCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>loggingAroundAdvice</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wrappedUnitCalculator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="unitCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>loggingAroundAdvice</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="additionPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="add"/>
+    </bean>
+
+    <bean id="addMethodNameAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="pointcut" ref="additionPointcut"/>
+        <property name="advice" ref="loggingAroundAdvice"/>
+    </bean>
+
+    <bean id="methodNameAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="mappedNames">
+            <list>
+                <value>add</value>
+                <value>sub</value>
+            </list>
+        </property>
+        <property name="advice" ref="loggingAroundAdvice"/>
+    </bean>
+
+    <bean id="addSubPointcutArithmeticCalculator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="arithmeticCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>addMethodNameAdvisor</value>
+                <value>methodNameAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="regexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="patterns">
+            <list>
+                <value>.*mul.*</value>
+                <value>.*div.*</value>
+            </list>
+        </property>
+        <property name="advice" ref="loggingAroundAdvice"/>
+    </bean>
+
+
+    <bean id="genericCalculator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="arithmeticCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>methodNameAdvisor</value>
+                <value>regexpAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="aspectJAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression">
+            <value>execution(* *.*To*(..))</value>
+        </property>
+        <property name="advice">
+            <ref bean="loggingAroundAdvice"/>
+        </property>
+    </bean>
+
+    <bean id="aspectjCalculator" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="unitCalculator"/>
+        <property name="interceptorNames">
+            <list>
+                <value>aspectJAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames">
+            <list>
+                <value>*Calculator</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>methodNameAdvisor</value>
+                <value>regexpAdvisor</value>
+                <value>aspectJAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Be wary of unexpected side-affects
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    -->
+
+</beans>
