@@ -2,16 +2,17 @@
 <module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="IvyIDEA" name="IvyIDEA">
-      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="true" useCustomIvySettings="true" ivySettingsFile="" onlyResolveSelectedConfigs="true">
-        <configsToResolve>
-          <config>test</config>
-          <config>compile</config>
-          <config>runtime</config>
-        </configsToResolve>
+      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="true" useCustomIvySettings="true" ivySettingsFile="" onlyResolveSelectedConfigs="false">
         <propertiesSettings>
           <propertiesFiles includeProjectLevelPropertiesFiles="true" />
         </propertiesSettings>
       </configuration>
+    </facet>
+    <facet type="WebBeans" name="CDI">
+      <configuration />
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="true">
@@ -24,15 +25,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="laboratory-IvyIDEA-resolved">
-        <CLASSES />
-        <JAVADOC>
-          <root url="jar://$MODULE_DIR$/../artifacts/org.jmock/jmock-javadoc-2.6.0-RC2.jar!/" />
-        </JAVADOC>
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="IvyIDEA">
         <CLASSES>
           <root url="jar://$USER_HOME$/ivy/ivy-cache/log4j/log4j/jars/log4j-1.2.15.jar!/" />
@@ -43,8 +35,6 @@
           <root url="jar://$USER_HOME$/ivy/ivy-cache/org.testng/testng/jars/testng-6.1.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/junit/junit/jars/junit-3.8.1.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/org.beanshell/bsh/jars/bsh-2.0b4.jar!/" />
-          <root url="jar://$USER_HOME$/ivy/ivy-cache/com.beust/jcommander/jars/jcommander-1.12.jar!/" />
-          <root url="jar://$USER_HOME$/ivy/ivy-cache/org.yaml/snakeyaml/jars/snakeyaml-1.6.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/com.google.inject/guice/jars/guice-2.0.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar!/" />
           <root url="jar://$MODULE_DIR$/../artifacts/org.jmock/jmock-2.6.0-RC2.jar!/" />
@@ -92,9 +82,28 @@
           <root url="jar://$USER_HOME$/ivy/ivy-cache/com.thoughtworks.xstream/xstream/jars/xstream-1.3.1.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/xpp3/xpp3_min/jars/xpp3_min-1.1.4c.jar!/" />
           <root url="jar://$USER_HOME$/ivy/ivy-cache/com.thoughtworks/xstream/jars/xstream-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/com.beust/jcommander/jars/jcommander-1.5.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/org.jmock/jmock/jars/jmock-2.6.0-RC2.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/org.jmock/jmock-legacy/jars/jmock-legacy-2.6.0-RC2.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/asm/asm-util/jars/asm-util-2.2.3.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/asm/asm/jars/asm-2.2.3.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/asm/asm-commons/jars/asm-commons-2.2.3.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.7.0.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-dbcp/commons-dbcp/jars/commons-dbcp-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.5.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/axis/axis/jars/axis-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/org.springframework/spring-aop/jars/spring-aop-3.0.5.RELEASE.jar!/" />
         </CLASSES>
-        <JAVADOC />
-        <SOURCES />
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-beanutils/commons-beanutils/javadocs/commons-beanutils-1.7.0-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-dbcp/commons-dbcp/javadocs/commons-dbcp-1.4-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-pool/commons-pool/javadocs/commons-pool-1.5.5-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-beanutils/commons-beanutils/sources/commons-beanutils-1.7.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-dbcp/commons-dbcp/sources/commons-dbcp-1.4-sources.jar!/" />
+          <root url="jar://$USER_HOME$/ivy/ivy-cache/commons-pool/commons-pool/sources/commons-pool-1.5.5-sources.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

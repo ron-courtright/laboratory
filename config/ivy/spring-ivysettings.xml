@@ -1,0 +1,26 @@
+<ivysettings>
+
+    <property name="spring-ivy-pattern" 
+        value="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+    <property name="artifact-pattern" 
+        value="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+    <property name="com.springsource" 
+        value="http://repository.springsource.com/ivy/bundles"/>
+
+    <resolvers>
+        <url name="com.springsource.repository.bundles.release">
+            <ivy pattern="${com.springsource}/external/${spring-ivy-pattern}"/>
+            <artifact pattern="${com.springsource}/release/${artifact-pattern}"/>
+        </url>
+        <url name="com.springsource.repository.bundles.external">
+            <ivy pattern="${com.springsource}/external/${spring-ivy-pattern}"/>
+            <artifact pattern="${com.springsource}/external/${artifact-pattern}"/>
+        </url>
+	</resolvers>
+
+    <caches default="springframework-cache" useOrigin="true">
+        <cache name="springframework-cache" 
+            basedir="${user.home}/Workspaces/ivy/ivy-cache/" />
+    </caches>
+
+</ivysettings>
